@@ -52,6 +52,25 @@
     </Arg>
   </Call>
 
+  <!-- Configuration for LoggingMBean -->
+  <!-- This MBean allows to configure Loggers via jmx -->
+  <New id="LoggingMBean" class="org.eclipse.jetty.jmx.Logging" />
+
+  <New id="LoggingMBeanObjectName" class="javax.management.ObjectName">
+    <Arg>org.eclipse.jetty.logging:type=Logging</Arg>
+  </New>
+
+  <Ref id="MBeanServer">
+    <Call name="registerMBean">
+      <Arg>
+        <Ref id="LoggingMBean" />
+      </Arg>
+      <Arg>
+        <Ref id="LoggingMBeanObjectName" />
+      </Arg>
+    </Call>
+  </Ref>
+
   <!-- Add the static log -->
   <Get id="Logger" class="org.eclipse.jetty.util.log.Log" name="log" />
   <Ref id="MBeanContainer">
