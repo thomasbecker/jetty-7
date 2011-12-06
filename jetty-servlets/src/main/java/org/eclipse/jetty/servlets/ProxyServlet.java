@@ -505,7 +505,7 @@ public class ProxyServlet implements Servlet
                     {
                         if (ex instanceof EofException)
                         {
-                            _log.ignore(ex);
+                            LOG.ignore(ex);
                             return;
                         }
                         handleOnException(ex,request,response);
@@ -741,8 +741,8 @@ public class ProxyServlet implements Servlet
      */
     protected void handleOnException(Throwable ex, HttpServletRequest request, HttpServletResponse response)
     {
-        _log.warn(ex.toString());
-        _log.debug(ex);
+        LOG.warn(ex.toString());
+        LOG.debug(ex);
         if (!response.isCommitted())
         {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

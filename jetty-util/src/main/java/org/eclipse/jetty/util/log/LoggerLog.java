@@ -128,6 +128,22 @@ public class LoggerLog implements Logger
         }
     }
 
+    public String getLevel()
+    {
+        throw new IllegalStateException("getLevel not supported by this Logger implementation");
+    }
+
+    public void setLevel(Level level)
+    {
+        if(level == Level.DEBUG)
+        {
+            setDebugEnabled(true);
+        }else{
+            warn("Setting level of this logger is not really supported. So any level other than debug means simply disable debug. Disabling debug now.",null,null);
+            setDebugEnabled(false);
+        }
+    }
+
     public boolean isDebugEnabled()
     {
         return _debug;

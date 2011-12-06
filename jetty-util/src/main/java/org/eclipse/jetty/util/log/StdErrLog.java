@@ -24,16 +24,14 @@ import org.eclipse.jetty.util.DateCache;
 /**
  * StdErr Logging. This implementation of the Logging facade sends all logs to StdErr with minimal formatting.
  * <p>
- * If the system property "org.eclipse.jetty.LEVEL" is set to one of the following (ALL, DEBUG, INFO, WARN), then set
- * the eclipse jetty root level logger level to that specified level. (Default level is INFO)
+ * If the system property "org.eclipse.jetty.LEVEL" is set to one of the following (ALL, DEBUG, INFO, WARN), then set the eclipse jetty root level logger level
+ * to that specified level. (Default level is INFO)
  * <p>
- * If the system property "org.eclipse.jetty.util.log.SOURCE" is set, then the source method/file of a log is logged.
- * For named debuggers, the system property name+".SOURCE" is checked. If it is not not set, then
- * "org.eclipse.jetty.util.log.SOURCE" is used as the default.
+ * If the system property "org.eclipse.jetty.util.log.SOURCE" is set, then the source method/file of a log is logged. For named debuggers, the system property
+ * name+".SOURCE" is checked. If it is not not set, then "org.eclipse.jetty.util.log.SOURCE" is used as the default.
  * <p>
- * If the system property "org.eclipse.jetty.util.log.LONG" is set, then the full, unabbreviated name of the logger is
- * used for logging. For named debuggers, the system property name+".LONG" is checked. If it is not not set, then
- * "org.eclipse.jetty.util.log.LONG" is used as the default.
+ * If the system property "org.eclipse.jetty.util.log.LONG" is set, then the full, unabbreviated name of the logger is used for logging. For named debuggers,
+ * the system property name+".LONG" is checked. If it is not not set, then "org.eclipse.jetty.util.log.LONG" is used as the default.
  */
 public class StdErrLog implements Logger
 {
@@ -121,8 +119,7 @@ public class StdErrLog implements Logger
     }
 
     /**
-     * Get the Logging Level for the provided log name. Using the FQCN first, then each package segment from longest to
-     * shortest.
+     * Get the Logging Level for the provided log name. Using the FQCN first, then each package segment from longest to shortest.
      *
      * @param props
      *            the properties to check
@@ -191,8 +188,7 @@ public class StdErrLog implements Logger
     }
 
     /**
-     * Condenses a classname by stripping down the package name to just the first character of each package name
-     * segment.Configured
+     * Condenses a classname by stripping down the package name to just the first character of each package name segment.Configured
      * <p>
      *
      * <pre>
@@ -325,8 +321,7 @@ public class StdErrLog implements Logger
     }
 
     /**
-     * Legacy interface where a programmatic configuration of the logger level
-     * is done as a wholesale approach.
+     * Legacy interface where a programmatic configuration of the logger level is done as a wholesale approach.
      */
     public void setDebugEnabled(boolean enabled)
     {
@@ -337,7 +332,7 @@ public class StdErrLog implements Logger
                 this._level = LEVEL_DEBUG;
 
                 // Boot stomp all cached log levels to DEBUG
-                for(StdErrLog log: __loggers.values())
+                for (StdErrLog log : __loggers.values())
                 {
                     log._level = LEVEL_DEBUG;
                 }
@@ -350,7 +345,7 @@ public class StdErrLog implements Logger
                 this._level = this._configuredLevel;
 
                 // restore all cached log configured levels
-                for(StdErrLog log: __loggers.values())
+                for (StdErrLog log : __loggers.values())
                 {
                     log._level = log._configuredLevel;
                 }
@@ -358,16 +353,60 @@ public class StdErrLog implements Logger
         }
     }
 
-    public int getLevel()
+    public int getIntLevel()
     {
         return _level;
+    }
+
+    public String getLevel()
+    {
+        switch (_level)
+        {
+            case 0:
+                return "ALL";
+            case 1:
+                return "DEBUG";
+            case 2:
+                return "INFO";
+            case 3:
+                return "WARN";
+            default:
+                throw new IllegalStateException("_level is set to an unknwon loglevel. Should never happen");
+        }
+    }
+
+    public void setLevel(Level level)
+    {
+        switch (level)
+        {
+            case ALL:
+                _level = 0;
+                break;
+            case DEBUG:
+                _level = 1;
+                break;
+            case INFO:
+                _level = 2;
+                break;
+            case ERROR:
+                _level = 3;
+                break;
+            case FATAL:
+                _level = 3;
+                break;
+            case WARN:
+                _level = 3;
+                break;
+            case OFF:
+                _level = 3;
+                break;
+        }
     }
 
     /**
      * Set the level for this logger.
      * <p>
-     * Available values ({@link StdErrLog#LEVEL_ALL}, {@link StdErrLog#LEVEL_DEBUG}, {@link StdErrLog#LEVEL_INFO},
-     * {@link StdErrLog#LEVEL_WARN})
+     * Available values ({@link StdErrLog#LEVEL_ALL}, {@link StdErrLog#LEVEL_DEBUG}, {@link StdErrLog#LEVEL_INFO}, {@link StdErrLog#LEVEL_WARN})
      *
      * @param level
      *            the level to set the logger to

@@ -41,8 +41,8 @@ public class Slf4jLog implements Logger
         }
 
         org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger( name );
-        
-        // Fix LocationAwareLogger use to indicate FQCN of this class - 
+
+        // Fix LocationAwareLogger use to indicate FQCN of this class -
         // https://bugs.eclipse.org/bugs/show_bug.cgi?id=276670
         if (logger instanceof org.slf4j.spi.LocationAwareLogger)
         {
@@ -112,6 +112,16 @@ public class Slf4jLog implements Logger
     public void setDebugEnabled(boolean enabled)
     {
         warn("setDebugEnabled not implemented",null,null);
+    }
+
+    public String getLevel()
+    {
+        throw new IllegalStateException("getLevel not implemented");
+    }
+
+    public void setLevel(Level level)
+    {
+        warn("setLevel not implemented",null,null);
     }
 
     public Logger getLogger(String name)

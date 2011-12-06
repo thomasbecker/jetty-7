@@ -23,25 +23,19 @@ import org.eclipse.jetty.util.log.Logger;
  */
 public interface LoggingMBean
 {
-    /* ------------------------------------------------------------ */
     /**
-     * Enables/Disables debug for the {@link Logger} with the given name
+     * Get the level for the specified Logger
      *
      * @param loggerName
-     *            the logger to change
-     * @param enabled
-     *            true to enable, false to disable debug loglevel
+     *            the logger name to retrieve the level from
+     * @return the level of the specified logger
      */
-    public void setDebugEnabled(String loggerName, boolean enabled);
+    public String getLevel(String loggerName);
 
-    /* ------------------------------------------------------------ */
     /**
-     * Returns if debug is enabled for the given {@link Logger}
-     *
-     * @param loggerName
-     *            the logger name to retrieve isDebugEnabled from
+     * Set the level of the specified logger
      */
-    public boolean getIsDebugEnabled(String loggerName);
+    public void setLevel(String loggerName, Logger.Level level);
 
     /* ------------------------------------------------------------ */
     /**

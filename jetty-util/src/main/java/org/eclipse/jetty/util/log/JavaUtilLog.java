@@ -24,13 +24,13 @@ import java.util.logging.Level;
  * </p>
  *
  * <p>
- * You can also set the logger level using <a href="http://java.sun.com/j2se/1.5.0/docs/guide/logging/overview.html">
- * standard java.util.logging configuration</a>.
+ * You can also set the logger level using <a href="http://java.sun.com/j2se/1.5.0/docs/guide/logging/overview.html"> standard java.util.logging
+ * configuration</a>.
  * </p>
  */
 public class JavaUtilLog implements Logger
 {
-    private Level configuredLevel;
+    private java.util.logging.Level configuredLevel;
     private java.util.logging.Logger _logger;
 
     public JavaUtilLog()
@@ -41,9 +41,9 @@ public class JavaUtilLog implements Logger
     public JavaUtilLog(String name)
     {
         _logger = java.util.logging.Logger.getLogger(name);
-        if (Boolean.parseBoolean(Log.__props.getProperty("org.eclipse.jetty.util.log.DEBUG", "false")))
+        if (Boolean.parseBoolean(Log.__props.getProperty("org.eclipse.jetty.util.log.DEBUG","false")))
         {
-            _logger.setLevel(Level.FINE);
+            _logger.setLevel(java.util.logging.Level.FINE);
         }
         configuredLevel = _logger.getLevel();
     }
@@ -55,37 +55,37 @@ public class JavaUtilLog implements Logger
 
     public void warn(String msg, Object... args)
     {
-        _logger.log(Level.WARNING, format(msg, args));
+        _logger.log(java.util.logging.Level.WARNING,format(msg,args));
     }
 
     public void warn(Throwable thrown)
     {
-        warn("", thrown);
+        warn("",thrown);
     }
 
     public void warn(String msg, Throwable thrown)
     {
-        _logger.log(Level.WARNING, msg, thrown);
+        _logger.log(java.util.logging.Level.WARNING,msg,thrown);
     }
 
     public void info(String msg, Object... args)
     {
-        _logger.log(Level.INFO, format(msg, args));
+        _logger.log(java.util.logging.Level.INFO,format(msg,args));
     }
 
     public void info(Throwable thrown)
     {
-        info("", thrown);
+        info("",thrown);
     }
 
     public void info(String msg, Throwable thrown)
     {
-        _logger.log(Level.INFO, msg, thrown);
+        _logger.log(java.util.logging.Level.INFO,msg,thrown);
     }
 
     public boolean isDebugEnabled()
     {
-        return _logger.isLoggable(Level.FINE);
+        return _logger.isLoggable(java.util.logging.Level.FINE);
     }
 
     public void setDebugEnabled(boolean enabled)
@@ -93,7 +93,7 @@ public class JavaUtilLog implements Logger
         if (enabled)
         {
             configuredLevel = _logger.getLevel();
-            _logger.setLevel(Level.FINE);
+            _logger.setLevel(java.util.logging.Level.FINE);
         }
         else
         {
@@ -101,19 +101,53 @@ public class JavaUtilLog implements Logger
         }
     }
 
+    public String getLevel()
+    {
+        return _logger.getLevel().toString();
+    }
+
+    public void setLevel(Level level)
+    {
+        switch (level)
+        {
+            case DEBUG:
+                _logger.setLevel(java.util.logging.Level.FINE);
+                break;
+            case ALL:
+                _logger.setLevel(java.util.logging.Level.FINEST);
+                break;
+            case ERROR:
+                _logger.setLevel(java.util.logging.Level.SEVERE);
+                break;
+            case FATAL:
+                _logger.setLevel(java.util.logging.Level.SEVERE);
+                break;
+            case INFO:
+                _logger.setLevel(java.util.logging.Level.INFO);
+                break;
+            case OFF:
+                _logger.setLevel(java.util.logging.Level.OFF);
+                break;
+            case WARN:
+                _logger.setLevel(java.util.logging.Level.WARNING);
+                break;
+        }
+
+    }
+
     public void debug(String msg, Object... args)
     {
-        _logger.log(Level.FINE, format(msg, args));
+        _logger.log(java.util.logging.Level.FINE,format(msg,args));
     }
 
     public void debug(Throwable thrown)
     {
-        debug("", thrown);
+        debug("",thrown);
     }
 
     public void debug(String msg, Throwable thrown)
     {
-        _logger.log(Level.FINE, msg, thrown);
+        _logger.log(java.util.logging.Level.FINE,msg,thrown);
     }
 
     public Logger getLogger(String name)
@@ -125,7 +159,7 @@ public class JavaUtilLog implements Logger
     {
         if (Log.isIgnored())
         {
-            warn(Log.IGNORED, ignored);
+            warn(Log.IGNORED,ignored);
         }
     }
 
@@ -137,7 +171,7 @@ public class JavaUtilLog implements Logger
         int start = 0;
         for (Object arg : args)
         {
-            int bracesIndex = msg.indexOf(braces, start);
+            int bracesIndex = msg.indexOf(braces,start);
             if (bracesIndex < 0)
             {
                 builder.append(msg.substring(start));
@@ -147,7 +181,7 @@ public class JavaUtilLog implements Logger
             }
             else
             {
-                builder.append(msg.substring(start, bracesIndex));
+                builder.append(msg.substring(start,bracesIndex));
                 builder.append(String.valueOf(arg));
                 start = bracesIndex + braces.length();
             }
