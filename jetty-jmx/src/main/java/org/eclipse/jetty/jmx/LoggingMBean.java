@@ -39,7 +39,7 @@ public interface LoggingMBean
 
     /* ------------------------------------------------------------ */
     /**
-     * Returns all Loggers in a {@link Map}. Keys represent loggernames, Values represent isDebugEnabled
+     * Returns all Loggers in a {@link Map}. Keys represent loggernames, Values represent the logger's level
      */
-    public Map<String, Boolean> getLoggers();
+    public Map<String, String> getLoggers();
 }

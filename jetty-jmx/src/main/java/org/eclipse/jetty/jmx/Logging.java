@@ -31,7 +31,7 @@ import org.eclipse.jetty.util.log.Logger.Level;
 public class Logging implements LoggingMBean,LoggerListener
 {
 
-    private static Map<String,Boolean> _loggers = new HashMap<String, Boolean>();
+    private static Map<String,String> _loggers = new HashMap<String, String>();
 
     public Logging()
     {
@@ -41,7 +41,7 @@ public class Logging implements LoggingMBean,LoggerListener
     /**
      * @see org.eclipse.jetty.jmx.LoggingMBean#getLoggers()
      */
-    public Map<String, Boolean> getLoggers()
+    public Map<String, String> getLoggers()
     {
         return _loggers;
     }
@@ -54,7 +54,7 @@ public class Logging implements LoggingMBean,LoggerListener
     {
         for (String logger : loggers.keySet())
         {
-            _loggers.put(logger,loggers.get(logger).isDebugEnabled());
+            _loggers.put(logger,loggers.get(logger).getLevel());
         }
     }
 
@@ -64,7 +64,7 @@ public class Logging implements LoggingMBean,LoggerListener
      */
     public void addLogger(Logger logger)
     {
-        _loggers.put(logger.getName(),logger.isDebugEnabled());
+        _loggers.put(logger.getName(),logger.getLevel());
     }
 
     /* ------------------------------------------------------------ */
