@@ -35,7 +35,7 @@ public interface LoggingMBean
     /**
      * Set the level of the specified logger
      */
-    public void setLevel(String loggerName, Logger.Level level);
+    public void setLevel(String loggerName, String level);
 
     /* ------------------------------------------------------------ */
     /**

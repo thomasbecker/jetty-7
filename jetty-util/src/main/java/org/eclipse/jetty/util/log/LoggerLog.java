@@ -130,7 +130,7 @@ public class LoggerLog implements Logger
 
     public String getLevel()
     {
-        throw new IllegalStateException("getLevel not supported by this Logger implementation");
+        throw new UnsupportedOperationException("getLevel not supported by this Logger implementation");
     }
 
     public void setLevel(Level level)
