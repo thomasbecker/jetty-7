@@ -15,12 +15,14 @@
 package org.eclipse.jetty.jmx;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.log.Logger;
-import org.eclipse.jetty.util.log.LoggerListener;
 import org.eclipse.jetty.util.log.Logger.Level;
+import org.eclipse.jetty.util.log.LoggerListener;
 
 
 
@@ -31,7 +33,7 @@ import org.eclipse.jetty.util.log.Logger.Level;
 public class Logging implements LoggingMBean,LoggerListener
 {
 
-    private static Map<String,String> _loggers = new HashMap<String, String>();
+    private static Set<Logger> _loggers = new HashSet<Logger>();
 
     public Logging()
     {
@@ -43,7 +45,12 @@ public class Logging implements LoggingMBean,LoggerListener
      */
     public Map<String, String> getLoggers()
     {
-        return _loggers;
+        Map<String, String> loggers = new HashMap<String, String>();
+        for (Logger logger : _loggers)
+        {
+            loggers.put(logger.getName(),logger.getLevel());
+        }
+        return loggers;
     }
 
     /* ------------------------------------------------------------ */
@@ -54,7 +61,7 @@ public class Logging implements LoggingMBean,LoggerListener
     {
         for (String logger : loggers.keySet())
         {
-            _loggers.put(logger,loggers.get(logger).getLevel());
+            _loggers.add(loggers.get(logger));
         }
     }
 
@@ -64,7 +71,7 @@ public class Logging implements LoggingMBean,LoggerListener
      */
     public void addLogger(Logger logger)
     {
-        _loggers.put(logger.getName(),logger.getLevel());
+        _loggers.add(logger);
     }
 
     /* ------------------------------------------------------------ */
