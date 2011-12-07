@@ -28,7 +28,6 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.eclipse.jetty.util.IO;
 import org.eclipse.jetty.util.Loader;
-import org.omg.Dynamic.Parameter;
 
 /**
  * Logging. This class provides a static logging interface. If an instance of the org.slf4j.Logger class is found on the classpath, the static log methods are
@@ -59,8 +58,22 @@ public class Log
      */
     public static boolean __ignored;
 
+    /**
+     * Map of configured loggers. Needs to be package private to be able to reset it in unit tests.
+     */
+    static ConcurrentMap<String, Logger> _loggers;
+
+    private static Logger LOG;
+
+    private static boolean __initialized;
+
+    private static Set<LoggerListener> _loggerListeners;
+
     static
     {
+        _loggers = new ConcurrentHashMap<String, Logger>();
+        _loggerListeners = new HashSet<LoggerListener>();
+
         /*
          * Instantiate a default configuration properties (empty)
          */
@@ -115,13 +128,6 @@ public class Log
             }
         });
     }
-
-    private static Logger LOG;
-    private static boolean __initialized;
-
-    private static ConcurrentMap<String, Logger> _loggers = new ConcurrentHashMap<String, Logger>();
-
-    private static Set<LoggerListener> _loggerListeners = new HashSet<LoggerListener>();
 
     public static boolean initialized()
     {

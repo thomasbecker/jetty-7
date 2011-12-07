@@ -1,5 +1,7 @@
 package org.eclipse.jetty.util.log;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,6 +14,8 @@ public class NamedLogTest
     @BeforeClass
     public static void rememberOriginalLogger()
     {
+        // reset Log.loggers
+        Log._loggers = new ConcurrentHashMap<String, Logger>();
         originalLogger = Log.getLog();
     }
 
